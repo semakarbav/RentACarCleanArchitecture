@@ -1,0 +1,12 @@
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\bin\Debug\net6.0\Core.CrossCuttingConcerns.deps.json
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\bin\Debug\net6.0\Core.CrossCuttingConcerns.dll
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\bin\Debug\net6.0\ref\Core.CrossCuttingConcerns.dll
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\bin\Debug\net6.0\Core.CrossCuttingConcerns.pdb
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.csproj.AssemblyReference.cache
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.AssemblyInfoInputs.cache
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.AssemblyInfo.cs
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.csproj.CoreCompileInputs.cache
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.dll
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\ref\Core.CrossCuttingConcerns.dll
+C:\Projects\MngBootCampArchitecture\src\corePackages\Core.CrossCuttingConcerns\obj\Debug\net6.0\Core.CrossCuttingConcerns.pdb

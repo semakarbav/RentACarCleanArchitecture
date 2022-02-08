@@ -1,0 +1,15 @@
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\bin\Debug\net6.0\Domain.deps.json
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\bin\Debug\net6.0\Domain.dll
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\bin\Debug\net6.0\ref\Domain.dll
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\bin\Debug\net6.0\Domain.pdb
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\bin\Debug\net6.0\Core.Persistence.dll
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\bin\Debug\net6.0\Core.Persistence.pdb
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.csproj.AssemblyReference.cache
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.AssemblyInfoInputs.cache
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.AssemblyInfo.cs
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.csproj.CoreCompileInputs.cache
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.csproj.CopyComplete
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.dll
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\ref\Domain.dll
+C:\Projects\MngBootCampArchitecture\src\rentACar\Domain\obj\Debug\net6.0\Domain.pdb

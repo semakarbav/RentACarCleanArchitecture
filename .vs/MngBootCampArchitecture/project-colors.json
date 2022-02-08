@@ -1,0 +1,51 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "e6e319f3-f0ad-440e-af12-205509a0941b": {
+      "ProjectGuid": "e6e319f3-f0ad-440e-af12-205509a0941b",
+      "DisplayName": "Domain",
+      "ColorIndex": 0
+    },
+    "bb71d383-cce0-41d9-8b96-bbf6b7f4d275": {
+      "ProjectGuid": "bb71d383-cce0-41d9-8b96-bbf6b7f4d275",
+      "DisplayName": "Application",
+      "ColorIndex": 1
+    },
+    "9b2796af-d2ef-47ad-b9a6-d8b1c5c9a748": {
+      "ProjectGuid": "9b2796af-d2ef-47ad-b9a6-d8b1c5c9a748",
+      "DisplayName": "Persistence",
+      "ColorIndex": 2
+    },
+    "582c108c-312a-45b1-b25d-c4ae410d13cb": {
+      "ProjectGuid": "582c108c-312a-45b1-b25d-c4ae410d13cb",
+      "DisplayName": "Core.Persistence",
+      "ColorIndex": 3
+    },
+    "a33b53bf-28b7-4f02-aa69-4424a23a3b85": {
+      "ProjectGuid": "a33b53bf-28b7-4f02-aa69-4424a23a3b85",
+      "DisplayName": "Core.CrossCuttingConcerns",
+      "ColorIndex": 4
+    },
+    "31eab633-1e08-4add-b1e7-96114e5c39bc": {
+      "ProjectGuid": "31eab633-1e08-4add-b1e7-96114e5c39bc",
+      "DisplayName": "WebAPI",
+      "ColorIndex": 5
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "a3ae18d8-2a6e-4a27-94ef-192c6e4586f8": {
+      "ProjectGuid": "a3ae18d8-2a6e-4a27-94ef-192c6e4586f8",
+      "DisplayName": "Core.Application",
+      "ColorIndex": 6
+    },
+    "c8654cf7-1fea-4381-a9f4-1fc9327010b8": {
+      "ProjectGuid": "c8654cf7-1fea-4381-a9f4-1fc9327010b8",
+      "DisplayName": "Core.Mailing",
+      "ColorIndex": 7
+    }
+  },
+  "NextColorIndex": 8
+}

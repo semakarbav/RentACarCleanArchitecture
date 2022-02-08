@@ -1,0 +1,45 @@
+﻿using Application.Features.Models.Rules;
+using Application.Services.Repositories;
+using AutoMapper;
+using Domain.Entities;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Features.Models.Commands.CreateModel
+{
+    public class CreateModelCommand:IRequest<Model>
+    {
+        public int TransmissionId { get; set; }
+        public int FuelId { get; set; }
+        public int BrandId { get; set; }
+        public string Name { get; set; }
+        public double DailyPrice { get; set; }
+        public string ImageUrl { get; set; }
+
+        public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
+        {
+            IModelRepository _modelRepository;
+            IMapper _mapper;
+            ModelBusinessRules _modelBusinessRules;
+
+            public CreateModelCommandHandler(ModelBusinessRules modelBusinessRules, IMapper mapper, IModelRepository modelRepository)
+            {
+                _modelBusinessRules = modelBusinessRules;
+                _mapper = mapper;
+                _modelBusinessRules = modelBusinessRules;
+            }
+            public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
+            {
+                await _modelBusinessRules.ModelNameCanNotBeDuplicatedWhenInserted(request.Name);
+                await _modelBusinessRules.CheckIfBrandIsEmpty(request.BrandId);
+                var mappedModel = _mapper.Map<Model>(request);
+                var createdModel = await _modelRepository.AddAsync(mappedModel);
+                return createdModel;
+            }
+        }
+    }
+}
