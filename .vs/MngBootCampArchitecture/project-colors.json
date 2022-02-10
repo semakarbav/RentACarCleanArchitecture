@@ -45,7 +45,17 @@
       "ProjectGuid": "c8654cf7-1fea-4381-a9f4-1fc9327010b8",
       "DisplayName": "Core.Mailing",
       "ColorIndex": 7
+    },
+    "6f7735a9-240a-4edf-a405-cd8a4a6d462f": {
+      "ProjectGuid": "6f7735a9-240a-4edf-a405-cd8a4a6d462f",
+      "DisplayName": "Core.Security",
+      "ColorIndex": 8
+    },
+    "6853ac84-a62c-49ef-b5e9-46df2b130385": {
+      "ProjectGuid": "6853ac84-a62c-49ef-b5e9-46df2b130385",
+      "DisplayName": "Core.Security",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 8
+  "NextColorIndex": 10
 }

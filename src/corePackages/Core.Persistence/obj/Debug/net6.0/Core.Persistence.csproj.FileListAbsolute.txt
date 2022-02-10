@@ -10,3 +10,15 @@ C:\Projects\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\
 C:\Projects\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.dll
 C:\Projects\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\ref\Core.Persistence.dll
 C:\Projects\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.pdb
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\bin\Debug\net6.0\Core.Persistence.deps.json
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\bin\Debug\net6.0\Core.Persistence.dll
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\bin\Debug\net6.0\ref\Core.Persistence.dll
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\bin\Debug\net6.0\Core.Persistence.pdb
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.csproj.AssemblyReference.cache
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.AssemblyInfoInputs.cache
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.AssemblyInfo.cs
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.csproj.CoreCompileInputs.cache
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.dll
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\ref\Core.Persistence.dll
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\corePackages\Core.Persistence\obj\Debug\net6.0\Core.Persistence.pdb

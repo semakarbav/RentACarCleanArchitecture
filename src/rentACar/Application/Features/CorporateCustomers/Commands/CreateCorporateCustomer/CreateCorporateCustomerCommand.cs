@@ -1,6 +1,9 @@
 ﻿using Application.Features.CorporateCustomers.Rules;
+using Application.Features.Users.Dtos;
+using Application.Services.AuthService;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Security.Hashing;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -11,30 +14,47 @@ using System.Threading.Tasks;
 
 namespace Application.Features.CorporateCustomers.Commands.CreateCorporateCustomer
 {
-    public class CreateCorporateCustomerCommand: IRequest<CorporateCustomer>
+    public class CreateCorporateCustomerCommand: IRequest<LoginUserDto>
     {
         public string Email { get; set; }
+        public string Password { get; set; }
         public string CompanyName { get; set; }
         public string TaxNumber { get; set; }
-        public class CreateCorporateCustomerCommandHandler : IRequestHandler<CreateCorporateCustomerCommand, CorporateCustomer>
+        public class CreateCorporateCustomerCommandHandler : IRequestHandler<CreateCorporateCustomerCommand, LoginUserDto>
         {
             ICorporateCustomerRepository _corporateRepository;
             IMapper _mapper;
             CorporateCustomerBusinessRules _corporateCustomerBusinessRules;
+            IAuthService _authService;
 
-            public CreateCorporateCustomerCommandHandler(ICorporateCustomerRepository corporateRepository, IMapper mapper, CorporateCustomerBusinessRules corporateCustomerBusinessRules)
+            public CreateCorporateCustomerCommandHandler(ICorporateCustomerRepository corporateRepository, IMapper mapper, CorporateCustomerBusinessRules corporateCustomerBusinessRules, IAuthService authService)
             {
                 _corporateRepository = corporateRepository;
                 _mapper = mapper;
                 _corporateCustomerBusinessRules = corporateCustomerBusinessRules;
+                _authService = authService;
             }
 
-            public async Task<CorporateCustomer> Handle(CreateCorporateCustomerCommand request, CancellationToken cancellationToken)
+            public async Task<LoginUserDto> Handle(CreateCorporateCustomerCommand request, CancellationToken cancellationToken)
             {
-                await _corporateCustomerBusinessRules.TaxNumberCanNotBeDuplicated(request.TaxNumber);
-                var mappedCorporateCustomer = _mapper.Map<CorporateCustomer>(request);
-                var createdCcorporateCustomers = await _corporateRepository.AddAsync(mappedCorporateCustomer);
-                return createdCcorporateCustomers;
+                var corporateCustomerToAdd = _mapper.Map<CorporateCustomer>(request);
+
+                byte[] passwordHash, passwordSalt;
+                HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+                corporateCustomerToAdd.PasswordSalt = passwordSalt;
+                corporateCustomerToAdd.PasswordHash = passwordHash;
+                corporateCustomerToAdd.Status = true;
+
+                var createdIndCustomer = await _corporateRepository
+                    .AddAsync(corporateCustomerToAdd);
+
+
+                var accessToken = await _authService.CreateAccessToken(createdIndCustomer);
+
+                return new LoginUserDto
+                {
+                    AccessToken = accessToken
+                };
             }
         }
     }

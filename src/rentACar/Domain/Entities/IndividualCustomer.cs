@@ -12,7 +12,7 @@ namespace Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NationalId { get; set; }
-        public  Customer Customer { get; set; }
+       
         public IndividualCustomer(int id, int customerId, string email,string firstName, string lastName, string nationalId):this()
         {
             Id = id;

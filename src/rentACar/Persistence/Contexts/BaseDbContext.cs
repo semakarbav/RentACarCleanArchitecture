@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Core.Security.Entities;
+using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,9 @@ namespace Persistence.Contexts
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CorporateCustomer> CorporateCustomers { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<FindexScore> FindexScores { get; set; }
 
@@ -50,7 +54,7 @@ namespace Persistence.Contexts
                 b.Property(p => p.Id).HasColumnName("Id");
                 b.Property(p => p.Name).HasColumnName("Name");
                 b.HasMany(p => p.Models);
-        });
+            });
             modelBuilder.Entity<Model>(m =>
             {
                 m.ToTable("Models").HasKey(k => k.Id);
@@ -67,6 +71,26 @@ namespace Persistence.Contexts
                 m.HasMany(x => x.Cars);
             });
 
+            modelBuilder.Entity<User>(c =>
+            {
+                c.ToTable("Users").HasKey(p => p.Id);
+                c.Property(p => p.Id).HasColumnName("Id");
+                c.Property(p => p.Email).HasColumnName("Email");
+                c.Property(p => p.PasswordSalt).HasColumnName("PasswordSalt");
+                c.Property(p => p.PasswordHash).HasColumnName("PasswordHash");
+                c.Property(p => p.Status).HasColumnName("Status");
+                
+
+            });
+            modelBuilder.Entity<OperationClaim>(c =>
+            {
+                c.ToTable("OperationClaims").HasKey(p => p.Id);
+                c.Property(p => p.Id).HasColumnName("Id");
+                c.Property(p => p.Name).HasColumnName("Name");
+                
+
+
+            });
             modelBuilder.Entity<Color>(c =>
             {
                 c.ToTable("Colors").HasKey(k => k.Id);
@@ -85,12 +109,12 @@ namespace Persistence.Contexts
 
             modelBuilder.Entity<Customer>(c =>
             {
-                c.ToTable("Customers").HasKey(k => k.Id);
+                c.ToTable("Customers");
                 c.Property(p => p.Id).HasColumnName("Id");
                 c.Property(p => p.Email).HasColumnName("Email");
-                c.HasOne(c => c.CorporateCustomer);
+                //c.HasOne(c => c.CorporateCustomer);
                 c.HasOne(c => c.FindexScore);
-                c.HasOne(c => c.IndividualCustomer);
+                //c.HasOne(c => c.IndividualCustomer);
                 c.HasMany(c => c.Rentals);
 
 
@@ -104,7 +128,7 @@ namespace Persistence.Contexts
                 c.Property(i => i.LastName).HasColumnName("LastName");
                 c.Property(i => i.NationalId).HasColumnName("NationalId");
                 c.Property(i => i.Email).HasColumnName("Email");
-                c.HasOne(i => i.Customer);
+                //c.HasOne(i => i.Customer);
 
 
 
@@ -118,7 +142,7 @@ namespace Persistence.Contexts
                 c.Property(c => c.CompanyName).HasColumnName("CompanyName");
                 c.Property(c => c.Email).HasColumnName("Email");
                 c.Property(c => c.TaxNumber).HasColumnName("TaxNumber");
-                c.HasOne(c => c.Customer);
+                //c.HasOne(c => c.Customer);
 
 
             });
@@ -214,8 +238,12 @@ namespace Persistence.Contexts
             var city2 = new City(2, "İstanbul");
             modelBuilder.Entity<City>().HasData(city1, city2);
 
-            modelBuilder.Entity<Car>().HasData(new Car(1, 1, 1,2, "06ABC06", 2018, CarState.Available,600));
-            modelBuilder.Entity<Car>().HasData(new Car(2, 2, 2 ,1, "34ABC34", 2018, CarState.Available,600));
+            modelBuilder.Entity<Car>().HasData(new Car(1, 1, 1, 2, "06ABC06", 2018, CarState.Available, 600));
+            modelBuilder.Entity<Car>().HasData(new Car(2, 2, 2, 1, "34ABC34", 2018, CarState.Available, 600));
+
+            modelBuilder.Entity<OperationClaim>().HasData(new OperationClaim(1, "Admin"));
+            
+
 
         }
     }

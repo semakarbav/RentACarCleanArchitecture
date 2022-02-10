@@ -1,4 +1,5 @@
 ﻿using Core.Persistence.Repositories;
+using Core.Security.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Customer: Entity
+    public class Customer: User
     {
-        public string Email { get; set; }
-        public virtual CorporateCustomer CorporateCustomer { get; set; }
+       
+       
         public virtual FindexScore FindexScore { get; set; }
-        public virtual IndividualCustomer IndividualCustomer { get; set; }
+       
         public virtual ICollection<Rental> Rentals { get; set; }
         public Customer(int id, string email):this()
         {

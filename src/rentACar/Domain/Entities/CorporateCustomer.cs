@@ -11,7 +11,7 @@ namespace Domain.Entities
         public int CustomerId { get; set; }
         public string CompanyName { get; set; }
         public string TaxNumber { get; set; }
-        public virtual Customer Customer { get; set; }
+        
         public CorporateCustomer(int id, string email, string companyName, string taxNumber,int customerId):this()
         {
             Id = id;

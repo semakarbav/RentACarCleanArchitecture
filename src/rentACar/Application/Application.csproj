@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\corePackages\Core.CrossCuttingConcerns\Core.CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\..\corePackages\Core.Mailing\Core.Mailing.csproj" />
     <ProjectReference Include="..\..\corePackages\Core.Persistence\Core.Persistence.csproj" />
+    <ProjectReference Include="..\..\corePackages\Core.Security\Core.Security.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
@@ -34,6 +35,8 @@
     <Folder Include="Features\Models\Tests\" />
     <Folder Include="Features\Rentals\Tests\" />
     <Folder Include="Features\Tranmissions\Tests\" />
+    <Folder Include="Features\Users\Commands\DeleteUser\" />
+    <Folder Include="Features\Users\Commands\UpdateUser\" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CrossCuttingConcerns",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "src\corePackages\Core.Application\Core.Application.csproj", "{A3AE18D8-2A6E-4A27-94EF-192C6E4586F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Mailing", "src\corePackages\Core.Mailing\Core.Mailing.csproj", "{C8654CF7-1FEA-4381-A9F4-1FC9327010B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Mailing", "src\corePackages\Core.Mailing\Core.Mailing.csproj", "{C8654CF7-1FEA-4381-A9F4-1FC9327010B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Security", "src\corePackages\Core.Security\Core.Security.csproj", "{6853AC84-A62C-49EF-B5E9-46DF2B130385}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{C8654CF7-1FEA-4381-A9F4-1FC9327010B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8654CF7-1FEA-4381-A9F4-1FC9327010B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8654CF7-1FEA-4381-A9F4-1FC9327010B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6853AC84-A62C-49EF-B5E9-46DF2B130385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6853AC84-A62C-49EF-B5E9-46DF2B130385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6853AC84-A62C-49EF-B5E9-46DF2B130385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6853AC84-A62C-49EF-B5E9-46DF2B130385}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{A33B53BF-28B7-4F02-AA69-4424A23A3B85} = {DFAD12D5-0D9B-4A55-9FCB-765A72CCB198}
 		{A3AE18D8-2A6E-4A27-94EF-192C6E4586F8} = {DFAD12D5-0D9B-4A55-9FCB-765A72CCB198}
 		{C8654CF7-1FEA-4381-A9F4-1FC9327010B8} = {DFAD12D5-0D9B-4A55-9FCB-765A72CCB198}
+		{6853AC84-A62C-49EF-B5E9-46DF2B130385} = {DFAD12D5-0D9B-4A55-9FCB-765A72CCB198}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1486945F-6121-4EE8-AD5F-2A98D757ECE1}

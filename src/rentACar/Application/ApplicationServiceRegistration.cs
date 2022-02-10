@@ -7,11 +7,19 @@ using Application.Features.IndividualCustomers.Rules;
 using Application.Features.Invoices.Rules;
 using Application.Features.Maintenances.Rules;
 using Application.Features.Models.Rules;
+using Application.Features.OperationClaims.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Tranmissions.Rules;
+using Application.Features.Users.Rules;
+using Application.Services.AuthService;
 using Application.Services.Manager;
+using Application.Services.UserServices;
 using Core.Application.Adapter;
+using Core.Application.Pipilines.Logging;
 using Core.Application.Pipilines.Validation;
+using Core.CrossCuttingConcerns.SeriLog;
+using Core.CrossCuttingConcerns.SeriLog.Loggers;
+using Core.Security.Jwt;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +39,7 @@ namespace Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddSingleton<LoggerServiceBase,FileLogger>();
 
             services.AddScoped<BrandBusinessRules>();
             services.AddScoped<ModelBusinessRules>();
@@ -43,10 +52,16 @@ namespace Application
             services.AddScoped<CorporateCustomerBusinessRules>();
             services.AddScoped<IndividualCustomerBusinessRules>();
             services.AddScoped<InvoiceBusinessRules>();
+            services.AddScoped<UserBusinessRules>();
+            services.AddScoped<OperationClaimBusinessRules>();
 
             services.AddScoped<IFindexScoreAdapterService, FindexScoreAdapterManager>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenHelper, JwtHelper>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>),typeof(RequestValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
 
             return services;
