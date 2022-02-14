@@ -10,8 +10,8 @@ namespace Domain.Entities
     public class Maintenance:Entity
     {
         public string Description { get; set; }
-        public DateTime MaintenanceDate { get; set; }
-        public DateTime ReturnDate { get; set; }
+        public DateTime? MaintenanceDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
 
         public int CarId { get; set; }
         public Car Car { get; set; }

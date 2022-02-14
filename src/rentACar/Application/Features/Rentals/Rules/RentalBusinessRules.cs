@@ -74,5 +74,17 @@ namespace Application.Features.Rentals.Rules
             }
             return true;
         }
+        public async Task CheckIfKilometerControls(int carId, int kilometer)
+        {
+            var carToCheck = await this._carBusinessRules.CheckIfCarIsExist(carId);
+            if (carToCheck == null)
+            {
+                throw new BusinessException("Araba bulunamadı");
+            }
+            if (carToCheck.Kilometer > kilometer)
+            {
+                throw new BusinessException("Kilometre hatalı");
+            }
+        }
     }
 }

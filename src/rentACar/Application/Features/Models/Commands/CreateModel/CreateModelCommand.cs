@@ -18,7 +18,7 @@ namespace Application.Features.Models.Commands.CreateModel
         public int BrandId { get; set; }
         public string Name { get; set; }
         public double DailyPrice { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
         {
@@ -26,16 +26,17 @@ namespace Application.Features.Models.Commands.CreateModel
             IMapper _mapper;
             ModelBusinessRules _modelBusinessRules;
 
-            public CreateModelCommandHandler(ModelBusinessRules modelBusinessRules, IMapper mapper, IModelRepository modelRepository)
+            public CreateModelCommandHandler(IModelRepository modelRepository, IMapper mapper, ModelBusinessRules modelBusinessRules)
             {
-                _modelBusinessRules = modelBusinessRules;
+                _modelRepository = modelRepository;
                 _mapper = mapper;
                 _modelBusinessRules = modelBusinessRules;
             }
+
             public async Task<Model> Handle(CreateModelCommand request, CancellationToken cancellationToken)
             {
                 await _modelBusinessRules.ModelNameCanNotBeDuplicatedWhenInserted(request.Name);
-                await _modelBusinessRules.CheckIfBrandIsEmpty(request.BrandId);
+               
                 var mappedModel = _mapper.Map<Model>(request);
                 var createdModel = await _modelRepository.AddAsync(mappedModel);
                 return createdModel;

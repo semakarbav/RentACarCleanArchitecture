@@ -1,7 +1,9 @@
-﻿using Application.Features.Maintenances.Rules;
+﻿using Application.Features.Cars.Commands.UpdateCarState;
+using Application.Features.Maintenances.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -15,8 +17,8 @@ namespace Application.Features.Maintenances.Commands.UpdateMaintenance
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public DateTime MaintenanceDate { get; set; }
-        public DateTime ReturnDate { get; set; }
+        public DateTime? MaintenanceDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
         public int CarId { get; set; }
 
         public class UpdateMaintenanceCommandHandler : IRequestHandler<UpdateMaintenanceCommand, Maintenance>
@@ -39,6 +41,11 @@ namespace Application.Features.Maintenances.Commands.UpdateMaintenance
                 var mappedMaintenance = _mapper.Map<Maintenance>(request);
 
                 var updatedMaintenance = await _maintenanceRepository.UpdateAsync(mappedMaintenance);
+                UpdateCarStateCommand command = new UpdateCarStateCommand
+                {
+                    Id = request.CarId,
+                    CarState = CarState.Available
+                };
                 return updatedMaintenance;
             }
         }

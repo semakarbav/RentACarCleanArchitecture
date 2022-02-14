@@ -21,7 +21,7 @@ namespace Application.Features.Invoices.Rules
             _mediator = mediator;
         }
 
-        public async Task MakeInvoice(CreateInvoiceCommand command)
+        public async Task CreateInvoice(CreateInvoiceCommand command)
         {
             var result = await this._mediator.Send(command);
 

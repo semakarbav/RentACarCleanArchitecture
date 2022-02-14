@@ -1,4 +1,5 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Brands.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -10,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Brands.Commands.DeleteBrand
 {
-    public class DeleteBrandCommand:IRequest<Brand>
+    public class DeleteBrandCommand:IRequest<DeletedBrandDto>
     {
         public int Id { get; set; }
-        public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, Brand>
+        public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, DeletedBrandDto>
         {
             IBrandRepository _brandRepository;
             IMapper _mapper;
@@ -24,11 +25,13 @@ namespace Application.Features.Brands.Commands.DeleteBrand
                 _mapper = mapper;
             }
 
-            public async Task<Brand> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
+            public async Task<DeletedBrandDto> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
             {
                 var mappedBrand = _mapper.Map<Brand>(request);
                 var deletedBrand = await _brandRepository.DeleteAsync(mappedBrand);
-                return deletedBrand;
+                var deletedBrandDto = _mapper.Map<DeletedBrandDto>(deletedBrand);
+                return deletedBrandDto;
+             
             }
         }
     }

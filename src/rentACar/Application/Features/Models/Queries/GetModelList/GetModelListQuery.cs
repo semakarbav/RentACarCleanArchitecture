@@ -20,8 +20,11 @@ namespace Application.Features.Models.Queries.GetModelList
             IModelRepository _modelRepository;
             IMapper _mapper;
 
-
-          
+            public GetModelListQueryHandler(IModelRepository modelRepository, IMapper mapper)
+            {
+                _modelRepository = modelRepository;
+                _mapper = mapper;
+            }
 
             public async Task<ModelListModel> Handle(GetModelListQuery request, CancellationToken cancellationToken)
             {

@@ -17,11 +17,12 @@ namespace Application.Features.Cars.Rules
         ICarRepository _carRepository;
          IMediator _mediator;
 
-        public CarBusinessRules(ICarRepository carRepository)
+        public CarBusinessRules(ICarRepository carRepository, IMediator mediator )
         {
             _carRepository = carRepository;
+            _mediator = mediator;
         }
-        public async Task<Car> CheckIfCarIdShouldBeExist(int carId)
+        public async Task<Car> CheckIfCarIsExist(int carId)
         {
             var result = await _carRepository.GetAsync(c => c.Id == carId);
             if (result == null)
@@ -52,7 +53,7 @@ namespace Application.Features.Cars.Rules
             var result = await _carRepository.GetListAsync(c => c.Plate==plate);
             if (result.Items.Any())
             {
-                throw new BusinessException("Plate exists");
+                throw new BusinessException("Plaka bulunamadı");
             }
         }
         public async Task<int> GetFindexScoreById(int id)

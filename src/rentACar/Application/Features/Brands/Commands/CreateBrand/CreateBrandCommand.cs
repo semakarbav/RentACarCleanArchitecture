@@ -1,7 +1,8 @@
-﻿using Application.Features.Brands.Rules;
+﻿using Application.Features.Brands.Dtos;
+using Application.Features.Brands.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
-using Core.Application.Pipilines.Logging;
+using Core.Application.Pipelines.Logging;
 using Core.Mailing;
 using Domain.Entities;
 using MediatR;
@@ -13,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Brands.Commands.CreateBrand
 {
-    public class CreateBrandCommand: IRequest<Brand> , ILoggableRequest
+    public class CreateBrandCommand: IRequest<CreatedBrandDto> , ILoggableRequest
     {
         public string Name { get; set; }
         
-        public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Brand>
+        public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, CreatedBrandDto>
         {
             IBrandRepository _brandRepository;
             IMapper _mapper;
@@ -32,19 +33,20 @@ namespace Application.Features.Brands.Commands.CreateBrand
                 _mailService = mailService;
             }
 
-            public async Task<Brand> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+            public async Task<CreatedBrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
             {
                 await _brandBusinessRules.BrandNameCanNotBeDuplicatedWhenInserted(request.Name);
                 var mappedBrand = _mapper.Map<Brand>(request);
                 var createdBrand = await _brandRepository.AddAsync(mappedBrand);
-                var mail = new Mail { 
-                ToFullName="System Admins",
-                ToEmail="admins@mngkargo.com.tr",
-                Subject="New Brand Added",
-                HtmlBody="Hey, check the system"
-                };
-                _mailService.SendMail(mail);
-                return createdBrand;
+                var createdBrandDto = _mapper.Map<CreatedBrandDto>(createdBrand);
+                //var mail = new Mail { 
+                //ToFullName="System Admins",
+                //ToEmail="admins@mngkargo.com.tr",
+                //Subject="New Brand Added",
+                //HtmlBody="Hey, check the system"
+                //};
+                //_mailService.SendMail(mail);
+                return createdBrandDto;
             }
         }
     }

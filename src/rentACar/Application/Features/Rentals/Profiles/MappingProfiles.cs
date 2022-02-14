@@ -3,6 +3,8 @@ using Application.Features.Brands.Dtos;
 using Application.Features.Brands.Models;
 using Application.Features.Maintenenaces.Commands.CreateMaintenance;
 using Application.Features.Rentals.Commands.CreateRental;
+using Application.Features.Rentals.Commands.CreateRental.CreateEndRentalForCorporateCustomer;
+using Application.Features.Rentals.Commands.CreateRental.CreateEndRentalForIndividualCustomer;
 using Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorporateCustomer;
 using Application.Features.Rentals.Commands.DeleteRental;
 using Application.Features.Rentals.Commands.UpdateRental;
@@ -23,11 +25,14 @@ namespace Application.Features.Rentals.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<Rental, CreateRentalCommand>().ReverseMap();
+           
             CreateMap<Rental, RentForIndividualCustomerCommand>().ReverseMap();
             CreateMap<Rental, RentForCorporateCustomerCommand>().ReverseMap();
+            CreateMap<Rental, CreateEndRentalCommandForCorporateCommand>().ReverseMap();
+            CreateMap<Rental, CreateEndRentalCommandForIndividualCommand>().ReverseMap();
             CreateMap<Rental, UpdateRentalCommand>().ReverseMap();
             CreateMap<Rental, DeleteRentalCommand>().ReverseMap();
+            CreateMap<Rental, CreatedRentalDto>().ReverseMap();
             CreateMap<Rental, RentalListDto>().ReverseMap();
             CreateMap<IPaginate<Rental>, RentalListModel>().ReverseMap();
         }

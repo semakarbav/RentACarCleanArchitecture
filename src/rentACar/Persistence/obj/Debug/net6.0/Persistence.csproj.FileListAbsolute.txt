@@ -50,3 +50,7 @@ C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\obj
 C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\obj\Debug\net6.0\Persistence.dll
 C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\obj\Debug\net6.0\ref\Persistence.dll
 C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\obj\Debug\net6.0\Persistence.pdb
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\bin\Debug\net6.0\Core.ElasticSearch.dll
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\bin\Debug\net6.0\Core.ElasticSearch.pdb
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\bin\Debug\net6.0\Persistence.runtimeconfig.json
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Persistence\obj\Debug\net6.0\Persistence.genruntimeconfig.cache

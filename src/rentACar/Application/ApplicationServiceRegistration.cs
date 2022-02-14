@@ -15,10 +15,14 @@ using Application.Services.AuthService;
 using Application.Services.Manager;
 using Application.Services.UserServices;
 using Core.Application.Adapter;
-using Core.Application.Pipilines.Logging;
-using Core.Application.Pipilines.Validation;
+using Core.Application.Pipelines.Caching;
+using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Validation;
 using Core.CrossCuttingConcerns.SeriLog;
 using Core.CrossCuttingConcerns.SeriLog.Loggers;
+using Core.ElasticSearch;
+using Core.Mailing;
+using Core.Mailing.MailkitImplementations;
 using Core.Security.Jwt;
 using FluentValidation;
 using MediatR;
@@ -40,6 +44,7 @@ namespace Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddSingleton<LoggerServiceBase,FileLogger>();
+            services.AddSingleton<IElasticSearch,ElasticSearchManager>();
 
             services.AddScoped<BrandBusinessRules>();
             services.AddScoped<ModelBusinessRules>();
@@ -56,12 +61,15 @@ namespace Application
             services.AddScoped<OperationClaimBusinessRules>();
 
             services.AddScoped<IFindexScoreAdapterService, FindexScoreAdapterManager>();
+            services.AddSingleton<IMailService, MailkitMailService>(); 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenHelper, JwtHelper>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>),typeof(RequestValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+            
 
 
             return services;

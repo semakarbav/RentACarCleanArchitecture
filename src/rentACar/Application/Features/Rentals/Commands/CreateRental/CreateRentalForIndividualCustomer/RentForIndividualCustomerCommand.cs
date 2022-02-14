@@ -4,9 +4,12 @@ using Application.Features.IndividualCustomers.Rules;
 using Application.Features.Invoices.Command.CreateInvoice;
 using Application.Features.Invoices.Rules;
 using Application.Features.Models.Rules;
+using Application.Features.Rentals.Dtos;
 using Application.Features.Rentals.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Adapter;
+using Core.Application.Pipelines.Logging;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
@@ -18,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorporateCustomer
 {
-    public class RentForIndividualCustomerCommand : IRequest<Rental>
+    public class RentForIndividualCustomerCommand : IRequest<CreatedRentalDto> ,ILoggableRequest
     {
         public DateTime RentDate { get; set; }
         public DateTime ReturnDate { get; set; }
@@ -26,8 +29,10 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
         public int ReturnCityId { get; set; }
         public int CarId { get; set; }
         public int CustomerId { get; set; }
+        public int RentedKilometer { get; set; }
+        
 
-        public class RentForIndividualCustomerCommandHandler : IRequestHandler<RentForIndividualCustomerCommand, Rental>
+        public class RentForIndividualCustomerCommandHandler : IRequestHandler<RentForIndividualCustomerCommand, CreatedRentalDto>
         {
             IRentalRepository _rentalRepository;
             IMapper _mapper;
@@ -36,8 +41,11 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
             CarBusinessRules _carBusinessRules;
             InvoiceBusinessRules _invoiceBusinessRules;
             ModelBusinessRules _modelBusinessService;
+            IFindexScoreAdapterService _findexScoreAdapterService;
 
-            public RentForIndividualCustomerCommandHandler(IRentalRepository rentalRepository, IMapper mapper, RentalBusinessRules rentalBusinessRules, IndividualCustomerBusinessRules individualCustomerBusinessRules, CarBusinessRules carBusinessRules, InvoiceBusinessRules invoiceBusinessRules, ModelBusinessRules modelBusinessService)
+            public RentForIndividualCustomerCommandHandler(IRentalRepository rentalRepository, IMapper mapper,
+                RentalBusinessRules rentalBusinessRules, IndividualCustomerBusinessRules individualCustomerBusinessRules, 
+                CarBusinessRules carBusinessRules, InvoiceBusinessRules invoiceBusinessRules, ModelBusinessRules modelBusinessService, IFindexScoreAdapterService findexScoreAdapterService)
             {
                 _rentalRepository = rentalRepository;
                 _mapper = mapper;
@@ -46,18 +54,17 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                 _carBusinessRules = carBusinessRules;
                 _invoiceBusinessRules = invoiceBusinessRules;
                 _modelBusinessService = modelBusinessService;
+                _findexScoreAdapterService = findexScoreAdapterService;
             }
 
-            public async Task<Rental> Handle(RentForIndividualCustomerCommand request,
+            public async Task<CreatedRentalDto> Handle(RentForIndividualCustomerCommand request,
                 CancellationToken cancellationToken)
             {
-                var car = await this._carBusinessRules.CheckIfCarIdShouldBeExist(request.CarId);
-                _rentalBusinessRules.CheckIfCarIsUnderMaintenance(request.CarId);
-                _rentalBusinessRules.CheckIfCarIsRented(request.CarId);
+                var car = await this._carBusinessRules.CheckIfCarIsExist(request.CarId);
+                await _carBusinessRules.CheckIfCarIsMaintenance(request.CarId);
+                await _carBusinessRules.CheckIfCarIsRented(request.CarId);
                 await _rentalBusinessRules.CheckIfIndividualFindexScoreIsEnough(request.CarId, request.CustomerId);
-                await _individualCustomerBusinessRules.GetNationalId(request.CustomerId);
-
-                
+               
 
                 var mappedRental = _mapper.Map<Rental>(request);
                 mappedRental.RentedKilometer = car.Kilometer;
@@ -71,18 +78,22 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                 };
                 await this._carBusinessRules.UpdateCarState(command);
 
+                Random random = new Random();
                 CreateInvoiceCommand invoiceCommand = new CreateInvoiceCommand()
                 {
                     CustomerId = request.CustomerId,
                     InvoiceDate = DateTime.Now,
-                    InvoiceNo = 123,
+                    InvoiceNo = random.Next(0, 100000),
                     RentalId = createdRental.Id,
-                    TotalSum = 500
+                    TotalSum = 1000
                 };
-                await this._invoiceBusinessRules.MakeInvoice(invoiceCommand);
+                await _invoiceBusinessRules.CreateInvoice(invoiceCommand);
 
 
-                return createdRental;
+
+                var createdRentalDto = _mapper.Map<CreatedRentalDto>(createdRental);
+                return createdRentalDto;
+               
             }
 
            

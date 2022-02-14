@@ -2,6 +2,7 @@
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,12 @@ namespace Application.Features.Cars.Commands.CreateCar
     {
         public int ColorId { get; set; }
         public int ModelId { get; set; }
+        public int CityId { get; set; }
         public string Plate { get; set; }
         public short ModelYear { get; set; }
+        public int FindexScore { get; set; }
+        public int Kilometer { get; set; }
+
 
         public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, Car>
         {
@@ -36,6 +41,7 @@ namespace Application.Features.Cars.Commands.CreateCar
             {
                 await _carBusinessRules.CheckIfPlateCanNotBeDuplicated(request.Plate);
                 var mappedCar = _mapper.Map<Car>(request);
+                mappedCar.CarState = CarState.Available;
                 var createdCar = await _carRepository.AddAsync(mappedCar);
                 return createdCar;
             }

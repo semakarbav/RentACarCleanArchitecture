@@ -12,7 +12,6 @@ namespace Domain.Entities
     {
        
        
-        public virtual FindexScore FindexScore { get; set; }
        
         public virtual ICollection<Rental> Rentals { get; set; }
         public Customer(int id, string email):this()

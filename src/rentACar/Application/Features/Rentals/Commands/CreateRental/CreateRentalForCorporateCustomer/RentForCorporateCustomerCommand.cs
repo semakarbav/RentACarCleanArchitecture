@@ -27,6 +27,7 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
         public int CarId { get; set; }
         public int CustomerId { get; set; }
 
+
         public class RentForIndividualCustomerCommandHandler : IRequestHandler<RentForCorporateCustomerCommand, Rental>
         {
             IRentalRepository _rentalRepository;
@@ -51,10 +52,10 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
             public async Task<Rental> Handle(RentForCorporateCustomerCommand request,
                 CancellationToken cancellationToken)
             {
-                var car = await this._carBusinessRules.CheckIfCarIdShouldBeExist(request.CarId);
-                _rentalBusinessRules.CheckIfCarIsUnderMaintenance(request.CarId);
-                _rentalBusinessRules.CheckIfCarIsRented(request.CarId);
-                await _rentalBusinessRules.CheckIfIndividualFindexScoreIsEnough(request.CarId, request.CustomerId);
+                var car = await this._carBusinessRules.CheckIfCarIsExist(request.CarId);
+                await _carBusinessRules.CheckIfCarIsMaintenance(request.CarId);
+                await _carBusinessRules.CheckIfCarIsRented(request.CarId);
+                await _rentalBusinessRules.CheckIfCorporateFindexScoreIsEnough(request.CarId, request.CustomerId);
                 await _corporateCustomerBusinessRules.GetTaxNumber(request.CustomerId);
 
 
@@ -71,15 +72,17 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                 };
                 await this._carBusinessRules.UpdateCarState(command);
 
+                Random random = new Random();
                 CreateInvoiceCommand invoiceCommand = new CreateInvoiceCommand()
                 {
+
                     CustomerId = request.CustomerId,
                     InvoiceDate = DateTime.Now,
-                    InvoiceNo = 120,
+                    InvoiceNo = random.Next(0,100000),
                     RentalId = createdRental.Id,
                     TotalSum = 1000
                 };
-                await this._invoiceBusinessRules.MakeInvoice(invoiceCommand);
+                await _invoiceBusinessRules.CreateInvoice(invoiceCommand);
 
 
                 return createdRental;

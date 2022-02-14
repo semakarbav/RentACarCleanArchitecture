@@ -55,7 +55,12 @@
       "ProjectGuid": "6853ac84-a62c-49ef-b5e9-46df2b130385",
       "DisplayName": "Core.Security",
       "ColorIndex": 9
+    },
+    "5763c819-574c-4117-9201-d133f4678a1c": {
+      "ProjectGuid": "5763c819-574c-4117-9201-d133f4678a1c",
+      "DisplayName": "Core.ElasticSearch",
+      "ColorIndex": 10
     }
   },
-  "NextColorIndex": 10
+  "NextColorIndex": 11
 }

@@ -38,7 +38,7 @@ namespace Application.Features.Models.Commands.UpdateModel
         {
 
             await _modelBusinessRules.ModelNameCanNotBeDuplicatedWhenInserted(request.Name);
-            await _modelBusinessRules.CheckIfBrandIsEmpty(request.BrandId);
+           
             var mappedModel = _mapper.Map<Model>(request);
             var updatedModel = await _modelRepository.AddAsync(mappedModel);
             return updatedModel;

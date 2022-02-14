@@ -1,4 +1,7 @@
 ﻿using Application.Features.Rentals.Commands.CreateRental;
+using Application.Features.Rentals.Commands.CreateRental.CreateEndRentalForCorporateCustomer;
+using Application.Features.Rentals.Commands.CreateRental.CreateEndRentalForIndividualCustomer;
+using Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorporateCustomer;
 using Application.Features.Rentals.Commands.DeleteRental;
 using Application.Features.Rentals.Commands.UpdateRental;
 using Application.Features.Rentals.Queries.GetRentalList;
@@ -12,8 +15,27 @@ namespace WebAPI.Controllers
     [ApiController]
     public class RentalsController : BaseController
     {
-        [HttpPost("add")]
-        public async Task<IActionResult> AddMaintenance([FromBody] CreateRentalCommand command)
+        [HttpPost("rentforindividualcustomer")]
+        public async Task<IActionResult> RentForIndividualCustomer([FromBody] RentForIndividualCustomerCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Created("", result);
+        }
+
+        [HttpPost("rentforcorporatecustomer")]
+        public async Task<IActionResult> RentForCorporateCustomer([FromBody] RentForCorporateCustomerCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Created("", result);
+        }
+        [HttpPost("rentendforcorporatecustomer")]
+        public async Task<IActionResult> RentEndForCorporateCustomer([FromBody] CreateEndRentalCommandForCorporateCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Created("", result);
+        }
+        [HttpPost("rentendforindividualcustomer")]
+        public async Task<IActionResult> RentEndForIndividualCustomer([FromBody] CreateEndRentalCommandForIndividualCommand command)
         {
             var result = await Mediator.Send(command);
             return Created("", result);

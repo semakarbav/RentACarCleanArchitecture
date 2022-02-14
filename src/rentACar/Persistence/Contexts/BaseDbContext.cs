@@ -37,6 +37,7 @@ namespace Persistence.Contexts
         public DbSet<City> Cities { get; set; }
         public DbSet<FindexScore> FindexScores { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //if (!optionsBuilder.IsConfigured)
@@ -50,14 +51,14 @@ namespace Persistence.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.Entity<Brand>(b =>
             {
-                b.ToTable("Brands").HasKey(k => k.Id);
+                b.ToTable("Brands").HasKey(p => p.Id);
                 b.Property(p => p.Id).HasColumnName("Id");
                 b.Property(p => p.Name).HasColumnName("Name");
                 b.HasMany(p => p.Models);
             });
             modelBuilder.Entity<Model>(m =>
             {
-                m.ToTable("Models").HasKey(k => k.Id);
+                m.ToTable("Models").HasKey(p => p.Id);
                 m.Property(p => p.Id).HasColumnName("Id");
                 m.Property(p => p.Name).HasColumnName("Name");
                 m.Property(p => p.ImageUrl).HasColumnName("ImageUrl");
@@ -65,10 +66,10 @@ namespace Persistence.Contexts
                 m.Property(p => p.BrandId).HasColumnName("BrandId");
                 m.Property(p => p.TransmissionId).HasColumnName("TransmissionId");
                 m.Property(p => p.FuelId).HasColumnName("FuelId");
-                m.HasOne(x => x.Transmission);
-                m.HasOne(x => x.Fuel);
-                m.HasOne(x => x.Brand);
-                m.HasMany(x => x.Cars);
+                m.HasOne(p => p.Transmission);
+                m.HasOne(p => p.Fuel);
+                m.HasOne(p => p.Brand);
+                m.HasMany(p => p.Cars);
             });
 
             modelBuilder.Entity<User>(c =>
@@ -82,6 +83,14 @@ namespace Persistence.Contexts
                 
 
             });
+            modelBuilder.Entity<FindexScore>(b =>
+            {
+                b.ToTable("FindexScore").HasKey(p => p.Id);
+                b.Property(p => p.Id).HasColumnName("Id");
+                b.Property(p => p.CustomerId).HasColumnName("CustomerId");
+                b.Property(p => p.Score).HasColumnName("Score");
+                b.HasOne(p => p.Customer);
+            });
             modelBuilder.Entity<OperationClaim>(c =>
             {
                 c.ToTable("OperationClaims").HasKey(p => p.Id);
@@ -93,7 +102,7 @@ namespace Persistence.Contexts
             });
             modelBuilder.Entity<Color>(c =>
             {
-                c.ToTable("Colors").HasKey(k => k.Id);
+                c.ToTable("Colors").HasKey(p=> p.Id);
                 c.Property(p => p.Id).HasColumnName("Id");
                 c.Property(p => p.Name).HasColumnName("Name");
                 c.HasMany(p => p.Cars);
@@ -101,7 +110,7 @@ namespace Persistence.Contexts
             });
             modelBuilder.Entity<City>(c =>
             {
-                c.ToTable("Cities").HasKey(k => k.Id);
+                c.ToTable("Cities").HasKey(p => p.Id);
                 c.Property(p => p.Id).HasColumnName("Id");
                 c.Property(p => p.Name).HasColumnName("Name");
                 
@@ -112,9 +121,6 @@ namespace Persistence.Contexts
                 c.ToTable("Customers");
                 c.Property(p => p.Id).HasColumnName("Id");
                 c.Property(p => p.Email).HasColumnName("Email");
-                //c.HasOne(c => c.CorporateCustomer);
-                c.HasOne(c => c.FindexScore);
-                //c.HasOne(c => c.IndividualCustomer);
                 c.HasMany(c => c.Rentals);
 
 
@@ -123,12 +129,10 @@ namespace Persistence.Contexts
             {
                 c.ToTable("IndividualCustomers");
                 c.Property(i => i.Id).HasColumnName("Id");
-                c.Property(i => i.CustomerId).HasColumnName("CustomerId");
                 c.Property(i => i.FirstName).HasColumnName("FirstName");
                 c.Property(i => i.LastName).HasColumnName("LastName");
                 c.Property(i => i.NationalId).HasColumnName("NationalId");
                 c.Property(i => i.Email).HasColumnName("Email");
-                //c.HasOne(i => i.Customer);
 
 
 
@@ -138,14 +142,13 @@ namespace Persistence.Contexts
             {
                 c.ToTable("CorporateCustomers");
                 c.Property(c => c.Id).HasColumnName("Id");
-                c.Property(c => c.CustomerId).HasColumnName("CustomerId");
                 c.Property(c => c.CompanyName).HasColumnName("CompanyName");
                 c.Property(c => c.Email).HasColumnName("Email");
                 c.Property(c => c.TaxNumber).HasColumnName("TaxNumber");
-                //c.HasOne(c => c.Customer);
 
 
             });
+
             modelBuilder.Entity<Fuel>(f =>
             {
                 f.ToTable("Fuels").HasKey(k => k.Id);
@@ -178,14 +181,7 @@ namespace Persistence.Contexts
                 c.HasOne(c => c.City);
 
             });
-            modelBuilder.Entity<FindexScore>(f =>
-            {
-                f.ToTable("FindexScores").HasKey(f => f.Id);
-                f.Property(f => f.Id).HasColumnName("Id");
-                f.Property(f => f.CustomerId).HasColumnName("CustomerId");
-                f.Property(f => f.Score).HasColumnName("Score");
-                f.HasOne(f => f.Customer);
-            });
+          
             modelBuilder.Entity<Maintenance>(m =>
             {
                 m.ToTable("Maintenances").HasKey(k => k.Id);

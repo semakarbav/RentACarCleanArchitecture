@@ -46,3 +46,5 @@ C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Application\obj
 C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Application\obj\Debug\net6.0\Application.dll
 C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Application\obj\Debug\net6.0\ref\Application.dll
 C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Application\obj\Debug\net6.0\Application.pdb
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Application\bin\Debug\net6.0\Core.ElasticSearch.dll
+C:\Users\GLLPC\source\repos\MngBootCampArchitecture\src\rentACar\Application\bin\Debug\net6.0\Core.ElasticSearch.pdb

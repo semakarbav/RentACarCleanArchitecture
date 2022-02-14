@@ -17,7 +17,7 @@ namespace Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -290,10 +290,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
-                    b.ToTable("FindexScores", (string)null);
+                    b.ToTable("FindexScore", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Fuel", b =>
@@ -377,11 +376,11 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Description");
 
-                    b.Property<DateTime>("MaintenanceDate")
+                    b.Property<DateTime?>("MaintenanceDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("MaintenanceDate");
 
-                    b.Property<DateTime>("ReturnDate")
+                    b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("ReturnDate");
 
@@ -414,7 +413,6 @@ namespace Persistence.Migrations
                         .HasColumnName("FuelId");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ImageUrl");
 
@@ -571,10 +569,6 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("CompanyName");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("CustomerId");
-
                     b.Property<string>("TaxNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -586,10 +580,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.IndividualCustomer", b =>
                 {
                     b.HasBaseType("Domain.Entities.Customer");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("CustomerId");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -639,8 +629,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.FindexScore", b =>
                 {
                     b.HasOne("Domain.Entities.Customer", "Customer")
-                        .WithOne("FindexScore")
-                        .HasForeignKey("Domain.Entities.FindexScore", "CustomerId")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -804,9 +794,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Customer", b =>
                 {
-                    b.Navigation("FindexScore")
-                        .IsRequired();
-
                     b.Navigation("Rentals");
                 });
 #pragma warning restore 612, 618

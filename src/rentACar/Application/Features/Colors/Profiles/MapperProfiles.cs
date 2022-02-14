@@ -22,6 +22,10 @@ namespace Application.Features.Colors.Profiles
             CreateMap<Color, UpdateColorCommand>().ReverseMap();
             CreateMap<Color, DeleteColorCommand>().ReverseMap();
             CreateMap<Color, ColorListDto>().ReverseMap();
+            CreateMap<Color, ColorDto>().ReverseMap();
+            CreateMap<Color, CreatedColorDto>().ReverseMap();
+            CreateMap<Color, DeletedColorDto>().ReverseMap();
+            CreateMap<Color, UpdatedColorDto>().ReverseMap();
             CreateMap<IPaginate<Color>, ColorListModel>().ReverseMap();
 
         }

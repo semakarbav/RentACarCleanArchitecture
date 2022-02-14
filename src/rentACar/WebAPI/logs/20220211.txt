@@ -1,0 +1,5 @@
+2022-02-11 16:28:42.629 +03:00 [Information] {"FullName":null,"MethodName":"<Handle>g__Handler|0","User":"?","Parameters":[{"Name":null,"Value":{"Name":"Ford"},"Type":"CreateBrandCommand"}]}
+2022-02-11 16:31:58.220 +03:00 [Information] {"FullName":null,"MethodName":"<Handle>g__Handler|0","User":"?","Parameters":[{"Name":null,"Value":{"Name":"Fiat"},"Type":"CreateBrandCommand"}]}
+2022-02-11 16:35:17.423 +03:00 [Information] {"FullName":null,"MethodName":"<Handle>g__Handler|0","User":"?","Parameters":[{"Name":null,"Value":{"Name":"Kia"},"Type":"CreateBrandCommand"}]}
+2022-02-11 16:36:58.874 +03:00 [Information] {"FullName":null,"MethodName":"<Handle>g__Handler|0","User":"?","Parameters":[{"Name":null,"Value":{"Name":"Kia"},"Type":"CreateBrandCommand"}]}
+2022-02-11 16:37:27.640 +03:00 [Information] {"FullName":null,"MethodName":"<Handle>g__Handler|0","User":"?","Parameters":[{"Name":null,"Value":{"Name":"Hyndai"},"Type":"CreateBrandCommand"}]}
