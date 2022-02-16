@@ -12,6 +12,7 @@ using Application.Features.Rentals.Rules;
 using Application.Services.AdditionalServiceForRentalsServices;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Transaction;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
@@ -23,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorporateCustomer
 {
-    public class RentForCorporateCustomerCommand : IRequest<Rental>
+    public class RentForCorporateCustomerCommand : IRequest<Rental>, ITransactionRequest
     {
         public DateTime RentDate { get; set; }
         public DateTime ReturnDate { get; set; }

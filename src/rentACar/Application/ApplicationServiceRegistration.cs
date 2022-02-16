@@ -22,6 +22,7 @@ using Application.Services.UserServices;
 using Core.Application.Adapter;
 using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Core.Application.Pipelines.Validation;
 using Core.CrossCuttingConcerns.SeriLog;
 using Core.CrossCuttingConcerns.SeriLog.Loggers;
@@ -75,11 +76,13 @@ namespace Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPosService, FakePosServiceAdapterManager>();
             services.AddScoped<ITokenHelper, JwtHelper>();
+            services.AddSingleton<LoggerServiceBase, FileLogger>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>),typeof(RequestValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
-            
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+
 
 
             return services;
