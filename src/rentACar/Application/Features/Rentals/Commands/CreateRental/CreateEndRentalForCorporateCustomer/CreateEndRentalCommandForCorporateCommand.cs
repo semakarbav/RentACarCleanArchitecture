@@ -1,4 +1,5 @@
-﻿using Application.Features.Cars.Commands.UpdateCarState;
+﻿using Application.Features.Cars.Commands.EndRentalCarInfo;
+using Application.Features.Cars.Commands.UpdateCarState;
 using Application.Features.Cars.Rules;
 using Application.Features.CorporateCustomers.Rules;
 using Application.Features.Rentals.Dtos;
@@ -53,6 +54,13 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateEndRentalForC
                     CarState = CarState.Available
                 };
                 await this._carBusinessRules.UpdateCarState(command);
+                EndRentalCarInfoCommand endRentalCarInfo = new EndRentalCarInfoCommand
+                {
+                    Id = request.CarId,
+                    Kilometer = request.ReturnedKilometer,
+                    CityId = request.ReturnedCityId
+                };
+                await _carBusinessRules.UpdateCarKilometerCityInfo(endRentalCarInfo);
                 var createdRentalDto = _mapper.Map<RentalListDto>(createdRental);
                 return createdRentalDto;
             }

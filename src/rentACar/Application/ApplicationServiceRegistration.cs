@@ -1,4 +1,6 @@
-﻿using Application.Features.Brands.Rules;
+﻿using Application.Features.AdditionalServices.Rules;
+using Application.Features.Brands.Rules;
+using Application.Features.CarDamages.Rules;
 using Application.Features.Cars.Rules;
 using Application.Features.Colors.Rules;
 using Application.Features.CorporateCustomers.Rules;
@@ -8,11 +10,14 @@ using Application.Features.Invoices.Rules;
 using Application.Features.Maintenances.Rules;
 using Application.Features.Models.Rules;
 using Application.Features.OperationClaims.Rules;
+using Application.Features.Payments.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Tranmissions.Rules;
 using Application.Features.Users.Rules;
+using Application.Services.AdditionalServiceForRentalsServices;
 using Application.Services.AuthService;
-using Application.Services.Manager;
+using Application.Services.FindexScore;
+using Application.Services.PosService;
 using Application.Services.UserServices;
 using Core.Application.Adapter;
 using Core.Application.Pipelines.Caching;
@@ -59,11 +64,16 @@ namespace Application
             services.AddScoped<InvoiceBusinessRules>();
             services.AddScoped<UserBusinessRules>();
             services.AddScoped<OperationClaimBusinessRules>();
+            services.AddScoped<AdditionalServiceBusinessRules>();
+            services.AddScoped<CarDamageBusinessRules>();
+            services.AddScoped<PaymentBusinessRules>();
 
             services.AddScoped<IFindexScoreAdapterService, FindexScoreAdapterManager>();
             services.AddSingleton<IMailService, MailkitMailService>(); 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAdditionalServiceForRentalsService, AdditionalServiceForRentalsServices>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPosService, FakePosServiceAdapterManager>();
             services.AddScoped<ITokenHelper, JwtHelper>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>),typeof(RequestValidationBehavior<,>));

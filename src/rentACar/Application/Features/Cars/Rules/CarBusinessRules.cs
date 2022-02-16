@@ -1,4 +1,5 @@
-﻿using Application.Features.Cars.Commands.UpdateCarState;
+﻿using Application.Features.Cars.Commands.EndRentalCarInfo;
+using Application.Features.Cars.Commands.UpdateCarState;
 using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
 using Domain.Entities;
@@ -71,7 +72,17 @@ namespace Application.Features.Cars.Rules
 
             if (result == null)
             {
-                throw new BusinessException("Araba durumu güncellenirken hata");
+                throw new BusinessException("Araba müsaitliği güncellenirken hata");
+            }
+
+        }
+        public async Task UpdateCarKilometerCityInfo(EndRentalCarInfoCommand endRentalCarInfo)
+        {
+            var result = await _mediator.Send(endRentalCarInfo);
+
+            if (result == null)
+            {
+                throw new BusinessException("Araba kilometre ve şehir biligisi güncellenirken hata");
             }
 
         }

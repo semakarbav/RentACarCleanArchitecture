@@ -1,4 +1,5 @@
-﻿using Application.Features.Cars.Commands.UpdateCarState;
+﻿using Application.Features.AdditionalServices.Rules;
+using Application.Features.Cars.Commands.UpdateCarState;
 using Application.Features.Cars.Rules;
 using Application.Features.IndividualCustomers.Rules;
 using Application.Features.Invoices.Command.CreateInvoice;
@@ -6,6 +7,7 @@ using Application.Features.Invoices.Rules;
 using Application.Features.Models.Rules;
 using Application.Features.Rentals.Dtos;
 using Application.Features.Rentals.Rules;
+using Application.Services.AdditionalServiceForRentalsServices;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Adapter;
@@ -30,7 +32,8 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
         public int CarId { get; set; }
         public int CustomerId { get; set; }
         public int RentedKilometer { get; set; }
-        
+        public List<int>? AdditionalServiceIds { get; set; }
+
 
         public class RentForIndividualCustomerCommandHandler : IRequestHandler<RentForIndividualCustomerCommand, CreatedRentalDto>
         {
@@ -40,12 +43,14 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
             IndividualCustomerBusinessRules _individualCustomerBusinessRules;
             CarBusinessRules _carBusinessRules;
             InvoiceBusinessRules _invoiceBusinessRules;
-            ModelBusinessRules _modelBusinessService;
+            ModelBusinessRules _modelBusinessRules;
             IFindexScoreAdapterService _findexScoreAdapterService;
+            AdditionalServiceBusinessRules _additionalServiceBusinessRules;
+            IAdditionalServiceForRentalsService _additionalServiceForRentalsService;
 
-            public RentForIndividualCustomerCommandHandler(IRentalRepository rentalRepository, IMapper mapper,
-                RentalBusinessRules rentalBusinessRules, IndividualCustomerBusinessRules individualCustomerBusinessRules, 
-                CarBusinessRules carBusinessRules, InvoiceBusinessRules invoiceBusinessRules, ModelBusinessRules modelBusinessService, IFindexScoreAdapterService findexScoreAdapterService)
+            public RentForIndividualCustomerCommandHandler(IRentalRepository rentalRepository, IMapper mapper, 
+                RentalBusinessRules rentalBusinessRules, IndividualCustomerBusinessRules individualCustomerBusinessRules,
+                CarBusinessRules carBusinessRules, InvoiceBusinessRules invoiceBusinessRules, ModelBusinessRules modelBusinessRules, IFindexScoreAdapterService findexScoreAdapterService, AdditionalServiceBusinessRules additionalServiceBusinessRules, IAdditionalServiceForRentalsService additionalServiceForRentalsService)
             {
                 _rentalRepository = rentalRepository;
                 _mapper = mapper;
@@ -53,9 +58,13 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                 _individualCustomerBusinessRules = individualCustomerBusinessRules;
                 _carBusinessRules = carBusinessRules;
                 _invoiceBusinessRules = invoiceBusinessRules;
-                _modelBusinessService = modelBusinessService;
+                _modelBusinessRules = modelBusinessRules;
                 _findexScoreAdapterService = findexScoreAdapterService;
+                _additionalServiceBusinessRules = additionalServiceBusinessRules;
+                _additionalServiceForRentalsService = additionalServiceForRentalsService;
             }
+
+         
 
             public async Task<CreatedRentalDto> Handle(RentForIndividualCustomerCommand request,
                 CancellationToken cancellationToken)
@@ -69,7 +78,25 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                 var mappedRental = _mapper.Map<Rental>(request);
                 mappedRental.RentedKilometer = car.Kilometer;
 
+                var additionalServices = await _additionalServiceBusinessRules.GetListByIds(request.AdditionalServiceIds);
+                double totalAdditionalServicesPrice = additionalServices.Sum(a => a.Price);
+                var totalDays = (request.ReturnDate.Date - request.RentDate.Date).Days + 1;
+
+                var dailyPrice = await _modelBusinessRules.GetDailyPriceById(car.ModelId);
+                var total = dailyPrice * totalDays;
+
+                bool differentCities = request.RentCityId != request.ReturnCityId;
+                if (differentCities)
+                {
+                    total += 500;
+                }
+
+                var totalPrice = total + totalAdditionalServicesPrice;
+
                 var createdRental = await _rentalRepository.AddAsync(mappedRental);
+                await _additionalServiceForRentalsService.AddByRentalIdAndAdditionalServices(createdRental.Id, additionalServices);
+                
+                Console.WriteLine(totalPrice);
 
                 UpdateCarStateCommand command = new UpdateCarStateCommand
                 {
@@ -85,7 +112,7 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = random.Next(0, 100000),
                     RentalId = createdRental.Id,
-                    TotalSum = 1000
+                    TotalSum = totalPrice
                 };
                 await _invoiceBusinessRules.CreateInvoice(invoiceCommand);
 

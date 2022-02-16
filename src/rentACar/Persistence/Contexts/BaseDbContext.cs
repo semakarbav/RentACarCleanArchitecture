@@ -19,6 +19,7 @@ namespace Persistence.Contexts
         {
             Configuration = configuration;
         }
+        public DbSet<AdditionalService> AdditionalServices { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Car> Cars { get; set; }
@@ -32,10 +33,14 @@ namespace Persistence.Contexts
         public DbSet<CorporateCustomer> CorporateCustomers { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<CarDamage> CarDamages { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<CreditCardInfo> CreditCardInfos { get; set; }
         public DbSet<FindexScore> FindexScores { get; set; }
+        public DbSet<AdditionalServiceForRentals> AdditionalServiceForRentals { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -55,6 +60,26 @@ namespace Persistence.Contexts
                 b.Property(p => p.Id).HasColumnName("Id");
                 b.Property(p => p.Name).HasColumnName("Name");
                 b.HasMany(p => p.Models);
+            });
+            modelBuilder.Entity<Payment>(b =>
+            {
+                b.ToTable("Payments").HasKey(p => p.Id);
+                b.Property(p => p.Id).HasColumnName("Id");
+                b.Property(p => p.PaymentDate).HasColumnName("PaymentDate");
+                b.Property(p => p.TotalSum).HasColumnName("TotalSum");
+                b.Property(p => p.RentalId).HasColumnName("RentalId");
+                b.HasOne(p => p.Rental);
+            });
+            modelBuilder.Entity<CreditCardInfo>(b =>
+            {
+                b.ToTable("CreditCardInfos").HasKey(p => p.Id);
+                b.Property(p => p.Id).HasColumnName("Id");
+                b.Property(p => p.CardHolder).HasColumnName("CardHolder");
+                b.Property(p => p.CardNo).HasColumnName("CardNo");
+                b.Property(p => p.Date).HasColumnName("Date");
+                b.Property(p => p.Cvv).HasColumnName("Cvv");
+                b.Property(p => p.CustomerId).HasColumnName("CustomerId");
+                b.HasOne(p => p.Customer);
             });
             modelBuilder.Entity<Model>(m =>
             {
@@ -114,6 +139,17 @@ namespace Persistence.Contexts
                 c.Property(p => p.Id).HasColumnName("Id");
                 c.Property(p => p.Name).HasColumnName("Name");
                 
+            });
+
+            modelBuilder.Entity<CarDamage>(c =>
+            {
+                c.ToTable("CarDamages").HasKey(p => p.Id);
+                c.Property(p => p.Id).HasColumnName("Id");
+                c.Property(p => p.CarId).HasColumnName("CarId");
+                c.Property(p => p.DamageInfo).HasColumnName("DamageInfo");
+                c.HasOne(p => p.Car);
+
+
             });
 
             modelBuilder.Entity<Customer>(c =>
@@ -179,6 +215,7 @@ namespace Persistence.Contexts
                 c.HasOne(p => p.Color);
                 c.HasOne(p => p.Model);
                 c.HasOne(c => c.City);
+                c.HasMany(p => p.CarDamages);
 
             });
           
@@ -209,13 +246,32 @@ namespace Persistence.Contexts
                 r.Property(p => p.ReturnedKilometer).HasColumnName("ReturnedKilometer");
                 r.HasOne(p => p.Car);
                 r.HasOne(p => p.Customer);
+                r.HasMany(r => r.AdditionalServiceForRentals);
             });
+
+            modelBuilder.Entity<AdditionalService>(a =>
+            {
+                a.ToTable("AdditionalServices").HasKey(k => k.Id);
+                a.Property(p => p.Id).HasColumnName("Id");
+                a.Property(p => p.Name).HasColumnName("Name");
+                a.Property(p => p.Price).HasColumnName("Price");
+            });
+            modelBuilder.Entity<AdditionalServiceForRentals>(r =>
+            {
+                r.ToTable("AdditionalServiceForRentals").HasKey(r => r.Id);
+                r.Property(r => r.Id).HasColumnName("Id");
+                r.Property(r => r.RentalId).HasColumnName("RentalId");
+                r.Property(r => r.AdditionalServiceId).HasColumnName("AdditionalServiceId");
+                r.HasOne(r => r.Rental);
+                r.HasOne(r => r.AdditionalService);
+            });
+
             var brand1 = new Brand(1, "BMW");
             var brand2 = new Brand(2, "Mercedes");
             modelBuilder.Entity<Brand>().HasData(brand1, brand2);
 
-            var color1 = new Color(1, "Red");
-            var color2 = new Color(2, "Blue");
+            var color1 = new Color(1, "Kırmızı");
+            var color2 = new Color(2, "Mavi");
             modelBuilder.Entity<Color>().HasData(color1, color2);
 
             var transmission1 = new Transmission(1, "Manuel");

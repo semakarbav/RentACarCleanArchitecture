@@ -1,0 +1,1 @@
+2022-02-16 12:51:17.588 +03:00 [Information] {"FullName":null,"MethodName":"<Handle>g__Handler|0","User":"?","Parameters":[{"Name":null,"Value":{"Name":"Ford"},"Type":"CreateBrandCommand"}]}

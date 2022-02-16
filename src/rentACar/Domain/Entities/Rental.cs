@@ -26,11 +26,12 @@ namespace Domain.Entities
         public City ReturnedCity { get; set; }
         public Car Car { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual ICollection<AdditionalServiceForRentals> AdditionalServiceForRentals { get; set; }
 
 
         public Rental()
         {
-
+            AdditionalServiceForRentals = new HashSet<AdditionalServiceForRentals>();
         }
 
         public Rental(int id, DateTime rentDate, DateTime returnDate, int customerId,

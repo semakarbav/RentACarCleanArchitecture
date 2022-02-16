@@ -25,5 +25,29 @@ namespace WebAPI.Controllers
             var result = await Mediator.Send(invoiceBrandCommand);
             return Created("", result);
         }
+        [HttpGet("getallbycustomerid")]
+        public async Task<IActionResult> GetAllInvoicesByCustomerId([FromQuery] PageRequest pageRequest,
+         [FromQuery] int customerId)
+        {
+            var query = new GetInvoiecListByCustomerIdQuery();
+            query.PageRequest = pageRequest;
+            query.CustomerId = customerId;
+
+            var result = await Mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("getallbetweendates")]
+        public async Task<IActionResult> GetAllInvoicesBetweenDates([FromQuery] PageRequest pageRequest,
+            [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        {
+            var query = new GetInvoiceListBetweenDatesQuery();
+            query.PageRequest = pageRequest;
+            query.StartDate = startDate;
+            query.EndDate = endDate;
+
+            var result = await Mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

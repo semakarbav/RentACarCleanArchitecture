@@ -15,5 +15,19 @@ namespace Application.Services.Repositories
         Task<IPaginate<InvoiceListDto>> GetListInvoices(int index = 0,
            int size = 10,
            CancellationToken cancellationToken = default);
+
+        Task<IPaginate<InvoiceListDto>> GetAllInvoicesBetweenDates(
+            DateTime startDate,
+            DateTime endDate,
+            int index = 0,
+            int size = 10,
+            CancellationToken cancellationToken = default
+            );
+        Task<IPaginate<InvoiceListDto>> GetAllInvoicesByCustomerId(
+            int customerId,
+            int index = 0,
+            int size = 10,
+            CancellationToken cancellationToken = default
+            );
     }
 }

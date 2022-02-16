@@ -1,4 +1,5 @@
 ﻿using Application.Features.Cars.Commands.UpdateCarState;
+using Application.Features.Cars.Rules;
 using Application.Features.Maintenances.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -26,12 +27,14 @@ namespace Application.Features.Maintenances.Commands.UpdateMaintenance
             IMaintenanceRepository _maintenanceRepository;
             IMapper _mapper;
             MaintenanceBusinessRules _maintenanceBusinessRules;
+            CarBusinessRules _carBusinessRules;
 
-            public UpdateMaintenanceCommandHandler(IMaintenanceRepository maintenanceRepository, IMapper mapper, MaintenanceBusinessRules maintenanceBusinessRules)
+            public UpdateMaintenanceCommandHandler(IMaintenanceRepository maintenanceRepository, IMapper mapper, MaintenanceBusinessRules maintenanceBusinessRules, CarBusinessRules carBusinessRules)
             {
                 _maintenanceRepository = maintenanceRepository;
                 _mapper = mapper;
                 _maintenanceBusinessRules = maintenanceBusinessRules;
+                _carBusinessRules = carBusinessRules;
             }
 
             public async Task<Maintenance> Handle(UpdateMaintenanceCommand request, CancellationToken cancellationToken)
@@ -41,11 +44,16 @@ namespace Application.Features.Maintenances.Commands.UpdateMaintenance
                 var mappedMaintenance = _mapper.Map<Maintenance>(request);
 
                 var updatedMaintenance = await _maintenanceRepository.UpdateAsync(mappedMaintenance);
-                UpdateCarStateCommand command = new UpdateCarStateCommand
+                if(request.ReturnDate != null)
                 {
-                    Id = request.CarId,
-                    CarState = CarState.Available
-                };
+                    UpdateCarStateCommand command = new UpdateCarStateCommand
+                    {
+                        Id = request.CarId,
+                        CarState = CarState.Available
+                    };
+                    await this._carBusinessRules.UpdateCarState(command);
+                   
+                }
                 return updatedMaintenance;
             }
         }

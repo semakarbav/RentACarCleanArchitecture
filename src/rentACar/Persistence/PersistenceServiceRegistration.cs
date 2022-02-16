@@ -30,6 +30,12 @@ namespace Persistence
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICarDamageRepository, CarDamageRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<ICreditCardInfoRepository, CreditCardInfoRepository>();
+            services.AddScoped<IAdditionalServiceRepository, AdditionalServiceRepository>();
+            services.AddScoped<IAdditionalServiceForRentalsRepository, AdditionalServiceForRentalsRepository>();
+
 
             return services;
         }

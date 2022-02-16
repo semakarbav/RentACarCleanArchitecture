@@ -36,7 +36,7 @@ namespace Application.Features.Models.Rules
         {
             var result = await _modelRepository.GetAsync(m => m.Id == modelId);
 
-            if (result is null)
+            if (result == null)
             {
                 throw new BusinessException("Model bulunamadı");
             }

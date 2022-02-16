@@ -1,4 +1,5 @@
-﻿using Application.Features.Cars.Rules;
+﻿using Application.Features.Cars.Dtos;
+using Application.Features.Cars.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -11,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Cars.Commands.UpdateCar
 {
-    public class UpdateCarCommand: IRequest<Car>
+    public class UpdateCarCommand: IRequest<UpdateCarDto>
     {
         public int Id { get; set; }
         public int ColorId { get; set; }
         public int ModelId { get; set; }
         public string Plate { get; set; }
         public short ModelYear { get; set; }
-        public class UpdateCarCommandHandler: IRequestHandler<UpdateCarCommand, Car>
+        public class UpdateCarCommandHandler: IRequestHandler<UpdateCarCommand, UpdateCarDto>
         {
             ICarRepository _carRepository;
             IMapper _mapper;
@@ -31,12 +32,13 @@ namespace Application.Features.Cars.Commands.UpdateCar
                 _carRepository = carRepository;
             }
 
-            public async Task<Car> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+            public async Task<UpdateCarDto> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
             {
                // await _carBusinessRules.CheckIfCarIdShouldBeExist(request.Id);
                 var mappedCar = _mapper.Map<Car>(request);
                 var updatedCar = await _carRepository.UpdateAsync(mappedCar);
-                return updatedCar;
+                var updatedCarDto = _mapper.Map<UpdateCarDto>(mappedCar);
+                return updatedCarDto;
             }
         }
     }

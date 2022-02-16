@@ -1,9 +1,9 @@
 export interface ModelListModel{
-    id: Number;
-    name:string;
+    id: number;
+    brandName:string;
     colorName:string;
     transmissionName: string;
-    modelName:string;
+    name:string;
     dailyPrice:number;
     minScore:number;
     imageUrl:string;

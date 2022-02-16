@@ -100,6 +100,55 @@ namespace Persistence.Migrations
                     b.ToTable("UserOperationClaims");
                 });
 
+            modelBuilder.Entity("Domain.Entities.AdditionalService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float")
+                        .HasColumnName("Price");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdditionalServices", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.AdditionalServiceForRentals", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AdditionalServiceId")
+                        .HasColumnType("int")
+                        .HasColumnName("AdditionalServiceId");
+
+                    b.Property<int>("RentalId")
+                        .HasColumnType("int")
+                        .HasColumnName("RentalId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdditionalServiceId");
+
+                    b.HasIndex("RentalId");
+
+                    b.ToTable("AdditionalServiceForRentals", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -209,6 +258,31 @@ namespace Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Entities.CarDamage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int")
+                        .HasColumnName("CarId");
+
+                    b.Property<string>("DamageInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("DamageInfo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarDamages", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -262,13 +336,53 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Red"
+                            Name = "Kırmızı"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Blue"
+                            Name = "Mavi"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.CreditCardInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CardHolder")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("CardHolder");
+
+                    b.Property<string>("CardNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("CardNo");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int")
+                        .HasColumnName("CustomerId");
+
+                    b.Property<string>("Cvv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Cvv");
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("CreditCardInfos", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.FindexScore", b =>
@@ -458,6 +572,34 @@ namespace Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PaymentDate");
+
+                    b.Property<int>("RentalId")
+                        .HasColumnType("int")
+                        .HasColumnName("RentalId");
+
+                    b.Property<double>("TotalSum")
+                        .HasColumnType("float")
+                        .HasColumnName("TotalSum");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RentalId");
+
+                    b.ToTable("Payments", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Rental", b =>
                 {
                     b.Property<int>("Id")
@@ -599,6 +741,25 @@ namespace Persistence.Migrations
                     b.ToTable("IndividualCustomers", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.AdditionalServiceForRentals", b =>
+                {
+                    b.HasOne("Domain.Entities.AdditionalService", "AdditionalService")
+                        .WithMany()
+                        .HasForeignKey("AdditionalServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Rental", "Rental")
+                        .WithMany("AdditionalServiceForRentals")
+                        .HasForeignKey("RentalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AdditionalService");
+
+                    b.Navigation("Rental");
+                });
+
             modelBuilder.Entity("Domain.Entities.Car", b =>
                 {
                     b.HasOne("Domain.Entities.City", "City")
@@ -624,6 +785,28 @@ namespace Persistence.Migrations
                     b.Navigation("Color");
 
                     b.Navigation("Model");
+                });
+
+            modelBuilder.Entity("Domain.Entities.CarDamage", b =>
+                {
+                    b.HasOne("Domain.Entities.Car", "Car")
+                        .WithMany("CarDamages")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Domain.Entities.CreditCardInfo", b =>
+                {
+                    b.HasOne("Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Domain.Entities.FindexScore", b =>
@@ -692,6 +875,17 @@ namespace Persistence.Migrations
                     b.Navigation("Fuel");
 
                     b.Navigation("Transmission");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("Domain.Entities.Rental", "Rental")
+                        .WithMany()
+                        .HasForeignKey("RentalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rental");
                 });
 
             modelBuilder.Entity("Domain.Entities.Rental", b =>
@@ -769,6 +963,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Car", b =>
                 {
+                    b.Navigation("CarDamages");
+
                     b.Navigation("Rentals");
                 });
 
@@ -785,6 +981,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Model", b =>
                 {
                     b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Rental", b =>
+                {
+                    b.Navigation("AdditionalServiceForRentals");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transmission", b =>

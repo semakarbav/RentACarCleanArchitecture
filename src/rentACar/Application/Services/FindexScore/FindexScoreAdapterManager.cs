@@ -8,18 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services.Manager
+namespace Application.Services.FindexScore
 {
     public class FindexScoreAdapterManager : IFindexScoreAdapterService
     {
         FindexScoreService findexScoreService = new FindexScoreService();
-      
+
         public Task<int> GetScoreOfCorporateCustomer(string taxNumber)
         {
             Task<int> result = Task.Run(() =>
             {
-               
-                return this.findexScoreService.GetScoreOfCorporateCustomer(taxNumber);
+
+                return findexScoreService.GetScoreOfCorporateCustomer(taxNumber);
             });
             return result;
         }
@@ -28,8 +28,8 @@ namespace Application.Services.Manager
         {
             Task<int> result = Task.Run(() =>
             {
-              
-                return this.findexScoreService.GetScoreOfIndividualCustomer(nationalId);
+
+                return findexScoreService.GetScoreOfIndividualCustomer(nationalId);
             });
             return result;
         }

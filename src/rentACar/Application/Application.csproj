@@ -25,7 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\AdditionalServices\Tests\" />
     <Folder Include="Features\Brands\Tests\" />
+    <Folder Include="Features\CarDamages\Commands\DeleteCarDamage\" />
+    <Folder Include="Features\CarDamages\Commands\UpdateCarDamage\" />
+    <Folder Include="Features\CarDamages\Tests\" />
     <Folder Include="Features\Cars\Tests\" />
     <Folder Include="Features\Colors\Tests\" />
     <Folder Include="Features\CorporateCustomers\Tests\" />
@@ -34,6 +38,9 @@
     <Folder Include="Features\Invoices\Tests\" />
     <Folder Include="Features\Maintenances\Tests\" />
     <Folder Include="Features\Models\Tests\" />
+    <Folder Include="Features\Payments\Models\" />
+    <Folder Include="Features\Payments\Tests\" />
+    <Folder Include="Features\Payments\Queries\" />
     <Folder Include="Features\Rentals\Tests\" />
     <Folder Include="Features\Tranmissions\Tests\" />
     <Folder Include="Features\Users\Commands\DeleteUser\" />
