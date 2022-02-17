@@ -1,10 +1,13 @@
 ﻿using Application.Features.AdditionalServices.Rules;
 using Application.Features.Cars.Commands.UpdateCarState;
 using Application.Features.Cars.Rules;
+using Application.Features.CreditCardInfo.Dtos;
 using Application.Features.IndividualCustomers.Rules;
 using Application.Features.Invoices.Command.CreateInvoice;
 using Application.Features.Invoices.Rules;
 using Application.Features.Models.Rules;
+using Application.Features.Payments.Commands.CreatePayment;
+using Application.Features.Payments.Rules;
 using Application.Features.Rentals.Dtos;
 using Application.Features.Rentals.Rules;
 using Application.Services.AdditionalServiceForRentalsServices;
@@ -12,6 +15,7 @@ using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Adapter;
 using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
@@ -23,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorporateCustomer
 {
-    public class RentForIndividualCustomerCommand : IRequest<CreatedRentalDto> ,ILoggableRequest
+    public class RentForIndividualCustomerCommand : IRequest<CreatedRentalDto> ,ILoggableRequest,ITransactionRequest
     {
         public DateTime RentDate { get; set; }
         public DateTime ReturnDate { get; set; }
@@ -33,6 +37,7 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
         public int CustomerId { get; set; }
         public int RentedKilometer { get; set; }
         public List<int>? AdditionalServiceIds { get; set; }
+        public CreditCardInfoDto CreditCardInfoDto { get; set; }
 
 
         public class RentForIndividualCustomerCommandHandler : IRequestHandler<RentForIndividualCustomerCommand, CreatedRentalDto>
@@ -47,10 +52,11 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
             IFindexScoreAdapterService _findexScoreAdapterService;
             AdditionalServiceBusinessRules _additionalServiceBusinessRules;
             IAdditionalServiceForRentalsService _additionalServiceForRentalsService;
+            PaymentBusinessRules _paymentBusinessRules;
 
-            public RentForIndividualCustomerCommandHandler(IRentalRepository rentalRepository, IMapper mapper, 
+            public RentForIndividualCustomerCommandHandler(IRentalRepository rentalRepository, IMapper mapper,
                 RentalBusinessRules rentalBusinessRules, IndividualCustomerBusinessRules individualCustomerBusinessRules,
-                CarBusinessRules carBusinessRules, InvoiceBusinessRules invoiceBusinessRules, ModelBusinessRules modelBusinessRules, IFindexScoreAdapterService findexScoreAdapterService, AdditionalServiceBusinessRules additionalServiceBusinessRules, IAdditionalServiceForRentalsService additionalServiceForRentalsService)
+                CarBusinessRules carBusinessRules, InvoiceBusinessRules invoiceBusinessRules, ModelBusinessRules modelBusinessRules, IFindexScoreAdapterService findexScoreAdapterService, AdditionalServiceBusinessRules additionalServiceBusinessRules, IAdditionalServiceForRentalsService additionalServiceForRentalsService, PaymentBusinessRules paymentBusinessRules)
             {
                 _rentalRepository = rentalRepository;
                 _mapper = mapper;
@@ -62,9 +68,8 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                 _findexScoreAdapterService = findexScoreAdapterService;
                 _additionalServiceBusinessRules = additionalServiceBusinessRules;
                 _additionalServiceForRentalsService = additionalServiceForRentalsService;
+                _paymentBusinessRules = paymentBusinessRules;
             }
-
-         
 
             public async Task<CreatedRentalDto> Handle(RentForIndividualCustomerCommand request,
                 CancellationToken cancellationToken)
@@ -104,6 +109,17 @@ namespace Application.Features.Rentals.Commands.CreateRental.CreateRentalForCorp
                     CarState = CarState.Rented
                 };
                 await this._carBusinessRules.UpdateCarState(command);
+
+
+                CreatePaymentCommand paymentCommand = new CreatePaymentCommand
+                {
+                    CreditCardInfoDto = request.CreditCardInfoDto,
+                    PaymentDate = DateTime.Now,
+                    RentalId = createdRental.Id,
+                    TotalSum = totalPrice
+                };
+                await this._paymentBusinessRules.MakePayment(paymentCommand);
+
 
                 Random random = new Random();
                 CreateInvoiceCommand invoiceCommand = new CreateInvoiceCommand()

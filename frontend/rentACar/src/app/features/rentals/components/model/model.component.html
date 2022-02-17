@@ -1,10 +1,48 @@
-<p-card *ngFor="let item of models.items" header= {{item.name}} subheader="Card Subheader" [style]="{width: '360px'}" styleClass="p-card-shadow">
+<!-- <p-card *ngFor="let item of models.items" header= {{item.name}} subheader="Card Subheader" [style]="{width: '360px'}" styleClass="p-card-shadow">
     <ng-template  pTemplate="header">
-        <img alt="Card" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFY1yc1H4MuHgtwBamxvEQwg5MwXfXY18Utg&usqp=CAU">
+        <img alt="Card" src="{{item.imageUrl}}">
     </ng-template>
   
    
     <ng-template pTemplate="footer">
         {{item.dailyPrice}} TRY
     </ng-template>
-</p-card>
+</p-card> -->
+
+<div class="card">
+    <p-dataView #dv [value]="models" [paginator]="true" [rows]="9" filterBy="name"
+        [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+        <ng-template pTemplate="header">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                <p-dropdown [options]="sortOptions"  placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+                <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Search by Name"> 
+                </span>
+                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+        </ng-template>
+        <ng-template let-model pTemplate="gridItem">
+            <div class="p-col-12 p-md-4">
+                <div class="product-grid-item card">
+                    <div class="product-grid-item-top">
+                        <div>
+                            <i class="pi pi-tag product-category-icon"></i>
+                            <span class="product-category">{{model.brandName}}</span>
+                        </div>
+                       
+                    </div>
+                    <div class="product-grid-item-content">
+                        <img src={{model.imageUrl}} [alt]="model.name"/>
+                        <div class="product-name">{{model.name}}</div>
+                    
+                      
+                    </div>
+                    <div class="product-grid-item-bottom">
+                        <span class="product-price">${{model.dailyPrice}}</span>
+                      
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>

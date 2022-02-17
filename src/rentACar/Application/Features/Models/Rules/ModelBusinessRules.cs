@@ -21,7 +21,7 @@ namespace Application.Features.Models.Rules
             var result = await _modelRepository.GetListAsync(m => m.Name == name);
             if (result.Items.Any())
             {
-                throw new BusinessException("Model name exists");
+                throw new BusinessException("Model zaten var");
             }
         }
         public async Task CheckIfBrandIsEmpty(int brandId)
@@ -29,7 +29,7 @@ namespace Application.Features.Models.Rules
             var result = await _modelRepository.GetAsync(m => m.Id == brandId);
             if (result==null)
             {
-                throw new BusinessException("Brand is empty");
+                throw new BusinessException("Marka bulunamamdı");
             }
         }
         public async Task<double> GetDailyPriceById(int modelId)
